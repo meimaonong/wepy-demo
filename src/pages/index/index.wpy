@@ -36,7 +36,7 @@
         setTimeout(() => {
           const result = [{id: 3, name: 'qh'}]
           resolve(result)
-        }, 2000);
+        }, 2000)
       })
     }
 
@@ -44,6 +44,7 @@
       // 异步需要$apply
       async changeList() {
         const that = this
+        that.name = '王青'
         that.list = await that.getData()
         that.$apply()
       }
