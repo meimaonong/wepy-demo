@@ -1,0 +1,62 @@
+<template>
+  <view class="container">
+      <view class="test">{{name}}</view>
+      <view>{{newName}}</view>
+      <repeat for="{{list}}" key="index" index="index" item="item">
+        <view>{{item.id}}{{item.name}}</view>
+      </repeat>
+      <button type="default" @tap="changeList">改变数据</button>
+  </view>
+</template>
+<style lang="less" src="./index.less"></style>
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '首页'
+    }
+    components = {
+
+    }
+    data = {
+      name: '秦飞',
+      list: []
+    }
+
+    computed = {
+      newName(){
+        const that = this
+        return `${that.name}${+new Date()}`
+      }
+    }
+
+    getData() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const result = [{id: 3, name: 'qh'}]
+          resolve(result)
+        }, 2000);
+      })
+    }
+
+    methods = {
+      // 异步需要$apply
+      async changeList() {
+        const that = this
+        that.list = await that.getData()
+        that.$apply()
+      }
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      const that = this
+      
+      console.log('index')
+    }
+  }
+</script>

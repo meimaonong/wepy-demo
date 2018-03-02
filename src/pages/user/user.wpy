@@ -1,0 +1,37 @@
+<template>
+  <view class="container">
+    
+  </view>
+</template>
+<style lang="less" src="./user.less"></style>
+<script>
+  import wepy from 'wepy'
+
+  export default class User extends wepy.page {
+    config = {
+      navigationBarTitleText: '用户'
+    }
+    components = {
+
+    }
+    data = {
+      
+    }
+
+    computed = {
+
+    }
+
+    methods = {
+      
+    }
+
+    events = {
+
+    }
+
+    onLoad() {
+      console.log('user')
+    }
+  }
+</script>
