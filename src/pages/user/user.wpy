@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    
+    user
   </view>
 </template>
 <style lang="less" src="./user.less"></style>

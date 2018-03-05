@@ -6,22 +6,29 @@
         <view>{{item.id}}{{item.name}}</view>
       </repeat>
       <button type="default" @tap="changeList">改变数据</button>
+      <button type="default" @tap="changeUrl">js跳转页面</button>
+      <navigator url="/pages/user/user">跳转到新页面</navigator>
+      <list></list>
   </view>
 </template>
 <style lang="less" src="./index.less"></style>
 <script>
   import wepy from 'wepy'
+  import List from '../../components/list/list'
+  import TestMixin from '../../mixins/test'
+
 
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '首页'
     }
     components = {
-
+      list: List
     }
     data = {
-      name: '秦飞',
-      list: []
+      name: '小五',
+      list: [],
+      foo: 'index foo'
     }
 
     computed = {
@@ -40,13 +47,41 @@
       })
     }
 
+    mixins = [TestMixin]
+
     methods = {
-      // 异步需要$apply
+      /**
+       * 异步需要$apply
+       */
       async changeList() {
+
+        wepy.request({
+          method: 'post',
+          url: 'https://easy-mock.com/mock/5949c76c8ac26d795f4195fb/example/user',
+          data: {
+            x: '123',
+            y: '456',
+            obj: [{
+              id: '1'
+            }]
+          },
+          header: {
+              'content-type': 'application/x-www-form-urlencoded' // 默认值
+          }
+        }).then((d) => console.log(d))
+
         const that = this
         that.name = '王青'
         that.list = await that.getData()
         that.$apply()
+      },
+      /**
+       * 跳转页面
+       */
+      changeUrl() {
+        wepy.navigateTo({
+          url: '/pages/user/user'
+        })
       }
     }
 
@@ -54,10 +89,11 @@
 
     }
 
-    onLoad() {
+    async onLoad() {
       const that = this
       
       console.log('index')
+      console.log(that.foo)
     }
   }
 </script>

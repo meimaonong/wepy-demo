@@ -1,0 +1,25 @@
+<template>
+  <view class="c">
+    <repeat for="{{tlist}}" key="item.id" index="index" item="item">
+        <view>{{item.id}}: {{item.name}}</view>
+    </repeat>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class List extends wepy.component {
+  data = {
+      tlist: [
+          {
+              id: 1,
+              name: 'qvv'
+          }
+      ]
+  }
+  onLoad() {
+      console.log('component')
+  }
+}
+</script>
+
