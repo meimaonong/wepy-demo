@@ -31,7 +31,9 @@
     }
 
     onLoad() {
-      console.log('user')
+      // 修改具体页面数据
+      var c = this.$parent.$pages['/pages/index/index'];
+      c.name = 'ddddddd'
     }
   }
 </script>

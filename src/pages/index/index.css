@@ -1,0 +1,6 @@
+@import '../../components/zanui/zanui/panel.wxss';
+@import '../../components/zanui/zanui/btn.wxss';
+
+.test {
+    color:#f00;
+}

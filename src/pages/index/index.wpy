@@ -2,20 +2,48 @@
   <view class="container">
       <view class="test">{{name}}</view>
       <view>{{newName}}</view>
+      <button class="zan-btn" @tap="showToast">
+        显示toast
+      </button>
       <repeat for="{{list}}" key="index" index="index" item="item">
-        <view>{{item.id}}{{item.name}}</view>
+        <view @tap="makeEvent({{item.id}}, {{item.name}})">{{item.id}}{{item.name}}</view>
       </repeat>
       <button type="default" @tap="changeList">改变数据</button>
       <button type="default" @tap="changeUrl">js跳转页面</button>
       <navigator url="/pages/user/user">跳转到新页面</navigator>
       <list></list>
+
+      <!-- Field 基础用法 -->
+      <view class="zan-panel-title">基础用法</view>
+     
+
+      <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class="zan-panel">
+            <zanField1 :options="base_name" :value="value" componentId="zanField1"></zanField1>
+            <zanField2 :options="base_tel" :value="value" componentId="zanField2"></zanField2>
+            <zanField3 :options="base_address" :value="value" componentId="zanField3"></zanField3>
+          <view class="zan-btns">
+            <button
+              class="zan-btn zan-btn--primary"
+              formType="submit">提交数据</button>
+            <button
+              class="zan-btn"
+              formType="reset">重置数据</button>
+          </view>
+        </view>
+      </form>
+
+      <zanToast></zanToast>
   </view>
 </template>
-<style lang="less" src="./index.less"></style>
+<style lang="css" src="./index.css"></style>
 <script>
   import wepy from 'wepy'
   import List from '../../components/list/list'
   import TestMixin from '../../mixins/test'
+  import zanToast from '../../components/zanui/components/zan-toast'
+
+  import zanField from '../../components/zanui/components/zan-field'
 
 
   export default class Index extends wepy.page {
@@ -23,12 +51,33 @@
       navigationBarTitleText: '首页'
     }
     components = {
-      list: List
+      list: List,
+      zanToast,
+
+      zanField1: zanField,
+      zanField2: zanField,
+      zanField3: zanField,
     }
     data = {
       name: '小五',
-      list: [],
-      foo: 'index foo'
+      list: [{id: 1000, name: '列表名称'}],
+      foo: 'index foo',
+
+      base_name: {
+        title: '收货人',
+        placeholder: '名字'
+      },
+      base_tel: {
+        error: true,
+        title: '联系电话',
+        inputType: 'number',
+        placeholder: '请输入手机号'
+      },
+      base_address: {
+        title: '详细地址',
+        type: 'textarea',
+        placeholder: '请输入详细地址'
+      },
     }
 
     computed = {
@@ -50,6 +99,22 @@
     mixins = [TestMixin]
 
     methods = {
+      /**
+       * 提交与重置
+       */
+      formSubmit(event) {
+        console.log('[zan:field:submit]', event.detail.value)
+      },
+
+      formReset(event) {
+        console.log('[zan:field:reset]', event)
+      },
+      /**
+       * zanui
+       */
+      showToast() {
+        this.$invoke('zanToast', 'showZanToast', { title: '提示内容提示内容受到粉丝的是的', timeout: 2000 })
+      },
       /**
        * 异步需要$apply
        */
@@ -74,6 +139,13 @@
         that.name = '王青'
         that.list = await that.getData()
         that.$apply()
+      },
+      /**
+       * 测试事件传参
+       */
+      makeEvent(id, name) {
+        console.log(this.$parent)
+        console.log(id, name)
       },
       /**
        * 跳转页面
